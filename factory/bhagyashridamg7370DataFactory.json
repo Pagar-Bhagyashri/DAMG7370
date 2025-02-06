@@ -1,0 +1,9 @@
+{
+	"name": "bhagyashridamg7370DataFactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3b717be9-8a61-4e7e-8680-77a4e61a9a18",
+		"tenantId": "a8eec281-aaa3-4dae-ac9b-9a398b9215e7"
+	}
+}

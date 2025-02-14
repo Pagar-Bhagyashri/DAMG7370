@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "NYPD_Parquet_To_SnowFlake",
+				"description": "I have cleaned the dataset using Alteryx and now I am directly loading the cleaned parquet file into the snowflake .",
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",

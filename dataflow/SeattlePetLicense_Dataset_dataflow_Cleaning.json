@@ -1,0 +1,132 @@
+{
+	"name": "SeattlePetLicense_Dataset_dataflow_Cleaning",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedSeattlePetLicenseData",
+						"type": "DatasetReference"
+					},
+					"name": "readTSVFile",
+					"description": "Import data from delimited text 2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SnowflakeTableClean",
+						"type": "DatasetReference"
+					},
+					"name": "sinkSnowflake"
+				},
+				{
+					"dataset": {
+						"referenceName": "ParquetCleanSeattlePetLicenseDatasetfromDataflow",
+						"type": "DatasetReference"
+					},
+					"name": "sinkParquet"
+				}
+			],
+			"transformations": [
+				{
+					"name": "TransposeColumns"
+				},
+				{
+					"name": "PickRequiredColumns"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     Job_ID as string (uuid())",
+				"}",
+				"source(output(",
+				"          License_Issue_Date as string,",
+				"          License_Number as string,",
+				"          Animals_Name as string,",
+				"          Species as string,",
+				"          Primary_Breed as string,",
+				"          Secondary_Breed as string,",
+				"          ZIP_Code as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> readTSVFile",
+				"readTSVFile derive(License_Issue_DT = toDate(License_Issue_Date, 'MMMM dd yyyy','en-us'),",
+				"          Secondary_Breed = iifNull(Secondary_Breed,'Unknown' ),",
+				"          ZIP_Code = lpad(toString(ZIP_Code),5,'0'),",
+				"          Species = upper(Species),",
+				"          License_Number = toInteger(translate(License_Number,'S','')),",
+				"          Animals_Name = translate(Animals_Name, '()[]', ''),",
+				"          Job_ID = $Job_ID,",
+				"          Job_Load_DT = currentDate()) ~> TransposeColumns",
+				"TransposeColumns select(mapColumn(",
+				"          License_Number,",
+				"          Animals_Name,",
+				"          Species,",
+				"          Primary_Breed,",
+				"          Secondary_Breed,",
+				"          ZIP_Code,",
+				"          License_Issue_DT,",
+				"          DI_Job_ID = Job_ID,",
+				"          DI_Job_Load_DT = Job_Load_DT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> PickRequiredColumns",
+				"PickRequiredColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          LICENSE_ISSUE_DATE as string,",
+				"          LICENSE_NUMBER as string,",
+				"          ANIMAL_NAME as string,",
+				"          SPECIES as string,",
+				"          PRIMARY_BREED as string,",
+				"          SECONDARY_BREED as string,",
+				"          ZIP_CODE as string,",
+				"          DI_JOB_ID as string,",
+				"          DI_LOAD_DT as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true) ~> sinkSnowflake",
+				"PickRequiredColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ARREST_KEY as string,",
+				"          ARREST_DATE as string,",
+				"          PD_CD as short,",
+				"          PD_DESC as string,",
+				"          KY_CD as short,",
+				"          OFNS_DESC as string,",
+				"          LAW_CODE as string,",
+				"          LAW_CAT_CD as string,",
+				"          ARREST_BORO as string,",
+				"          ARREST_PRECINCT as short,",
+				"          JURISDICTION_CODE as short,",
+				"          AGE_GROUP as string,",
+				"          PERP_SEX as string,",
+				"          PERP_RACE as string,",
+				"          X_COORD_CD as double,",
+				"          Y_COORD_CD as double,",
+				"          LATITUDE as double,",
+				"          LONGITUDE as double,",
+				"          NEW_GEOREFERENCED_COLUMN as string,",
+				"          NEW_ARREST_DATE as date",
+				"     ),",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkParquet"
+			]
+		}
+	}
+}

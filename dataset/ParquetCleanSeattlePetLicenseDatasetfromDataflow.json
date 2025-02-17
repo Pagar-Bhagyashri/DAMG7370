@@ -1,0 +1,100 @@
+{
+	"name": "ParquetCleanSeattlePetLicenseDatasetfromDataflow",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "silver"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "ARREST_KEY",
+				"type": "UTF8"
+			},
+			{
+				"name": "ARREST_DATE",
+				"type": "UTF8"
+			},
+			{
+				"name": "PD_CD",
+				"type": "INT_16"
+			},
+			{
+				"name": "PD_DESC",
+				"type": "UTF8"
+			},
+			{
+				"name": "KY_CD",
+				"type": "INT_16"
+			},
+			{
+				"name": "OFNS_DESC",
+				"type": "UTF8"
+			},
+			{
+				"name": "LAW_CODE",
+				"type": "UTF8"
+			},
+			{
+				"name": "LAW_CAT_CD",
+				"type": "UTF8"
+			},
+			{
+				"name": "ARREST_BORO",
+				"type": "UTF8"
+			},
+			{
+				"name": "ARREST_PRECINCT",
+				"type": "INT_16"
+			},
+			{
+				"name": "JURISDICTION_CODE",
+				"type": "INT_16"
+			},
+			{
+				"name": "AGE_GROUP",
+				"type": "UTF8"
+			},
+			{
+				"name": "PERP_SEX",
+				"type": "UTF8"
+			},
+			{
+				"name": "PERP_RACE",
+				"type": "UTF8"
+			},
+			{
+				"name": "X_COORD_CD",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "Y_COORD_CD",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "LATITUDE",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "LONGITUDE",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "NEW_GEOREFERENCED_COLUMN",
+				"type": "UTF8"
+			},
+			{
+				"name": "NEW_ARREST_DATE",
+				"type": "DATE"
+			}
+		]
+	}
+}

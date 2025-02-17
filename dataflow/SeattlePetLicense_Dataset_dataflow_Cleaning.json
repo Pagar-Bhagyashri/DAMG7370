@@ -39,7 +39,8 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     Job_ID as string (uuid())",
+				"     Job_ID as string (uuid()\r",
+				")",
 				"}",
 				"source(output(",
 				"          License_Issue_Date as string,",

@@ -62,7 +62,7 @@
 				"          Job_ID = $Job_ID,",
 				"          Job_Load_DT = currentDate()) ~> TransposeColumns",
 				"TransposeColumns select(mapColumn(",
-				"          License_Number,",
+				"          license_number = License_Number,",
 				"          Animals_Name,",
 				"          Species,",
 				"          Primary_Breed,",

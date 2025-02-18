@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "CleanSeattlePetLicData",
+				"name": "StageData",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -20,7 +20,46 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"Job_ID": {
-								"value": "'@{pipeline().RunId}'",
+								"value": "'@{substring(pipeline().RunId, 1,10)}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "LoadBreedDIM",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "StageData",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_Load_Breed_DIM",
+						"type": "DataFlowReference",
+						"parameters": {
+							"DI_JOB_ID": {
+								"value": "'@{uuid()}'",
 								"type": "Expression"
 							}
 						}

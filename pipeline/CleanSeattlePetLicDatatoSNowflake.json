@@ -5,6 +5,8 @@
 			{
 				"name": "StageData",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.00:30:00",
@@ -35,8 +37,6 @@
 			{
 				"name": "LoadBreedDIM",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "StageData",
@@ -59,7 +59,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"DI_JOB_ID": {
-								"value": "'@{uuid()}'",
+								"value": "'@{substring(pipeline().RunId, 1,10)}'",
 								"type": "Expression"
 							}
 						}

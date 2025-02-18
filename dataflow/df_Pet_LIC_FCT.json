@@ -184,7 +184,15 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     stageInsert: true) ~> sinkPetLicFact"
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          PET_LICENSE_SK = ROWNUM,",
+				"          ISSUE_DATE_ID = DATE_DIM_SK,",
+				"          LOCATION_ID = LOCATION_SK,",
+				"          BREED_ID = BREED_SK,",
+				"          DI_JOB_ID,",
+				"          DI_CREATED_DT",
+				"     )) ~> sinkPetLicFact"
 			]
 		}
 	}

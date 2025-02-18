@@ -51,7 +51,7 @@
 				"          Secondary_Breed as string,",
 				"          ZIP_Code as integer",
 				"     ),",
-				"     allowSchemaDrift: true,",
+				"     allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> readTSVFile",
 				"readTSVFile derive(License_Issue_DT = toDate(License_Issue_Date, 'MMMM dd yyyy','en-us'),",

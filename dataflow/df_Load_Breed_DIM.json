@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_pet_lic_stage",
+						"referenceName": "SnowflakeTableClean",
 						"type": "DatasetReference"
 					},
 					"name": "sourceStg"

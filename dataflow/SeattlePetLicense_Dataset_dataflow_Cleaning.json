@@ -61,7 +61,7 @@
 				"          License_Number = toInteger(translate(License_Number,'S','')),",
 				"          Animals_Name = translate(Animals_Name, '()[]', ''),",
 				"          Job_ID = $Job_ID,",
-				"          Job_Load_DT = currentDate()) ~> TransposeColumns",
+				"          Job_Load_DT = currentTimestamp()) ~> TransposeColumns",
 				"TransposeColumns select(mapColumn(",
 				"          LICENSE_NUMBER = License_Number,",
 				"          ANIMAL_NAME = Animals_Name,",

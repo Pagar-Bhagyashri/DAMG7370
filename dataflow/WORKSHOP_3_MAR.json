@@ -5,6 +5,10 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "NameBasics",
+						"type": "DatasetReference"
+					},
 					"name": "NAMEBASICS"
 				}
 			],
@@ -18,10 +22,24 @@
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> NAMEBASICS",
-				"NAMEBASICS derive() ~> derivedColumn1",
-				"derivedColumn1 foldDown(unroll(),",
+				"source(output(",
+				"          NCONST as string,",
+				"          PRIMARYNAME as string,",
+				"          BIRTHYEAR as integer,",
+				"          DEATHYEAR as integer,",
+				"          PRIMARYPROFESSION as string,",
+				"          KNOWNFORTITLES as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> NAMEBASICS",
+				"NAMEBASICS derive(KNOWNFORTITLES = split(KNOWNFORTITLES, ',')) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unroll(KNOWNFORTITLES),",
+				"     mapColumn(",
+				"          NCONST,",
+				"          KNOWNFORTITLES",
+				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flatten1"
 			]

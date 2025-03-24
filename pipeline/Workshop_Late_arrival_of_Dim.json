@@ -64,6 +64,8 @@
 			{
 				"name": "CUSTOMER_DIM_2",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "INVOICE_FACT",
